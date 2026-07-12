@@ -1,27 +1,29 @@
-#include "algoritmos/BFS.h"
+#include "algoritmos/DFS.h"
+#include <stack>
+using std::stack;
 
 namespace algoritmos::componente_conexa {
-    componente_capas BFS(Grafo* G, int s) {
+    Grafo DFS(Grafo* G, int s) {
         size_t n = G->cantidadVertices();
-        vector<bool> explorado(n, false); explorado[s] = true;
-        vector<vector<int>> L;
-        L[0].push_back(s);
+        vector<bool> explorado(n, false);
         Grafo T(n, G->esDirigido());
-        size_t i = 0;
-        while(!L[i].empty()){
-            for(auto u: L[i]){
+        stack<int> S;
+        S.push(s);
+        while(!S.empty()){
+            int u = S.top();
+            S.pop();
+            if(!explorado[u]){
+                explorado[u] = true;
                 auto adyacentes = G->adyacentes(u);
                 for(auto e: adyacentes){
                     int v = e.getDestino();
+                    S.push(v);
                     if(!explorado[v]){
-                        explorado[v] = true;
-                        L[i+1].push_back(v);
                         T.agregarArista(u,v,e.getCosto());
                     }
                 }
             }
-            i++;
         }
-        return componente_capas{T, L};
+        return T;
     }
 }
