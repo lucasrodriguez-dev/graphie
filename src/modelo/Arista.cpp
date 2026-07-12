@@ -1,4 +1,4 @@
-#include "Arista.h"
+#include "modelo/Arista.h"
 
 Arista::Arista(int destino, float costo = 1) {
     this->destino = destino;

@@ -1,4 +1,4 @@
-#include "Grafo.h"
+#include "modelo/Grafo.h"
 #include <stdexcept>
 using std::runtime_error;
 
@@ -32,10 +32,18 @@ void Grafo::eliminarArista(int origen, int destino) {
     }
 }
 
+vector<Arista> Grafo::adyacentes(int v) const {
+    return listas_adyacencia[v];
+}
+
 size_t Grafo::getN() const {
     return n;
 }
 
 bool Grafo::esDirigido() const {
     return dirigido;
+}
+
+size_t Grafo::cantidadVertices() const {
+    return listas_adyacencia.size();
 }
