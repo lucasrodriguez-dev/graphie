@@ -19,6 +19,7 @@ class Grafo {
         size_t getN() const;
         bool esDirigido() const;
         size_t cantidadVertices() const;
+        Grafo operator-(int);
 };
 
 #endif
