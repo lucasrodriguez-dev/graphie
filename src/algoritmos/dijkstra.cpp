@@ -37,14 +37,11 @@ namespace algoritmos::camino_mas_corto::dijkstra::clasico {
     }
 }
 
-namespace algoritmos::camino_mas_corto::dijkstra::priorityqueue {
+namespace algoritmos::camino_mas_corto::dijkstra::pq {
     dijkstra_return dijkstra(Grafo* G, int s) {
         size_t n = G->cantidadVertices();
-        vector<int> d; vector<int> pred;
-        for(int v = 0; v < n; v++){
-            d[v]=INF;
-            pred[v]=VERTICE_NULO;
-        }
+        vector<int> d(n,INF);
+        vector<int> pred(n,VERTICE_NULO);
         d[s]=0;
         priority_queue<Estado,vector<Estado>,greater<Estado>> Q;
         Q.push({0,s});
@@ -59,33 +56,13 @@ namespace algoritmos::camino_mas_corto::dijkstra::priorityqueue {
             for(auto e: adyacentes){
                 int v = e.getDestino();
                 float costo_hasta_v = d[u] + e.getCosto();
-                if(costo_hasta_v == d[v]){
-                    continue;
+                if(costo_hasta_v < d[v]){
+                    d[v] = costo_hasta_v;
+                    pred[v] = u;
+                    Q.push({d[v],v});
                 }
-                d[v] = costo_hasta_v;
-                pred[v] = u;
             }
         }
         return dijkstra_return{pred, d};
     }
 }
-
-/*
-Dijkstra(G=(V,E), s)
-para todo v ∈ V
-    d[v] = ∞
-    pred[v] = NIL
-d[s] = 0
-Q = PriorityQueue()
-insertar (0,s) en Q
-while Q ≠ ∅
-    (dist,u) = ExtractMin(Q)
-    si dist > d[u]
-        continuar
-    para cada arista (u,v)
-        si d[v] > d[u] + l(u,v)
-            d[v] = d[u] + l(u,v)
-            pred[v] = u
-            insertar (d[v],v) en Q
-return (d,pred)
-*/

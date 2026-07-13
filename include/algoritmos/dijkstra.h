@@ -16,7 +16,7 @@ namespace algoritmos::camino_mas_corto::dijkstra::clasico {
     dijkstra_return dijkstra(Grafo* G, int s);
 }
 
-namespace algoritmos::camino_mas_corto::dijkstra::priorityqueue {
+namespace algoritmos::camino_mas_corto::dijkstra::pq {
     dijkstra_return dijkstra(Grafo* G, int s);
 }
 
