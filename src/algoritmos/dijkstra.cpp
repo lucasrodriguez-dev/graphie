@@ -55,7 +55,16 @@ namespace algoritmos::camino_mas_corto::dijkstra::priorityqueue {
             if(costo != d[u]){
                 continue;
             }
-            
+            auto adyacentes = G->adyacentes(u);
+            for(auto e: adyacentes){
+                int v = e.getDestino();
+                float costo_hasta_v = d[u] + e.getCosto();
+                if(costo_hasta_v == d[v]){
+                    continue;
+                }
+                d[v] = costo_hasta_v;
+                pred[v] = u;
+            }
         }
         return dijkstra_return{pred, d};
     }
