@@ -6,18 +6,18 @@
 using std::numeric_limits;
 
 struct dijkstra_return {
-    vector<int> predecesor;
-    vector<int> distancia;
+    vector<Nodo> predecesor;
+    vector<Peso> distancia;
 };
 
-constexpr float INF = numeric_limits<float>::infinity();
+constexpr float INF = numeric_limits<Peso>::infinity();
 
 namespace algoritmos::camino_mas_corto::dijkstra::clasico {
-    dijkstra_return dijkstra(Grafo* G, int s);
+    dijkstra_return dijkstra(Grafo* G, Nodo s);
 }
 
 namespace algoritmos::camino_mas_corto::dijkstra::pq {
-    dijkstra_return dijkstra(Grafo* G, int s);
+    dijkstra_return dijkstra(Grafo* G, Nodo s);
 }
 
 #endif

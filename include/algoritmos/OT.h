@@ -6,7 +6,7 @@
 using std::queue;
 
 namespace algoritmos::orden_topologico {
-    queue<int> OT(Grafo* G);
+    queue<Nodo> OT(Grafo* G);
 }
 
 #endif

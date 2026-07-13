@@ -3,13 +3,13 @@
 using std::stack;
 
 namespace algoritmos::orden_topologico {
-    queue<int> OT(Grafo* G) {
-        size_t n = G->cantidadVertices();
-        vector<int> i(n, 0);
+    queue<Nodo> OT(Grafo* G) {
+        size_t n = G->cantidadNodos();
+        vector<Nodo> i(n, 0);
         for(int u = 0; u < n; u++){
-            auto aristas_desde_u = G->adyacentes(u);
-            for(auto e: aristas_desde_u){
-                i[e.getDestino()]++;
+            auto aristas_desde_u = G->salientes(u);
+            for(auto& [v, peso]: aristas_desde_u){
+                i[v]++;
             }
         }
         stack<int> S;
@@ -18,14 +18,13 @@ namespace algoritmos::orden_topologico {
                 S.push(v);
             }
         }
-        queue<int> resultado;
+        queue<Nodo> resultado;
         while(!S.empty()){
             int v = S.top();
             S.pop();
             resultado.push(v);
-            auto aristas_desde_v = G->adyacentes(v);
-            for(auto e: aristas_desde_v){
-                int w = e.getDestino();
+            auto aristas_desde_v = G->salientes(v);
+            for(auto& [w, peso]: aristas_desde_v){
                 i[w]--;
                 if(i[w] == 0){
                     S.push(w);

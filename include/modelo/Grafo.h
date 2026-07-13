@@ -1,27 +1,30 @@
 #ifndef GRAFO_H
 #define GRAFO_H
 
-#include "modelo/Arista.h"
 #include <vector>
-using std::vector;
+using std::vector, std::pair;
 
-constexpr int VERTICE_NULO = -1;
+using Nodo = size_t;
+using Peso = double;
+using Arista = pair<Nodo,Peso>;
+
+constexpr Nodo NODO_NULO = -1;
 
 class Grafo {
     private:
-        size_t n;
-        vector<vector<Arista>> listas_adyacencia;
+        vector<vector<Arista>> salientes_;
         bool dirigido;
-        void eliminarDeLista(int origen, int destino);
+        void eliminarDeSalientes(Nodo origen, Nodo destino);
     public:
-        Grafo(size_t n, bool dirigido = false);
-        void agregarArista(int origen, int destino, float costo = 1);
-        void eliminarArista(int origen, int destino);
-        vector<Arista> adyacentes(int v) const;
-        size_t getN() const;
+        Grafo(size_t V = 0, bool dirigido = false);
+        void agregarArista(Nodo origen, Nodo destino, Peso p = 1);
+        void eliminarArista(Nodo origen, Nodo destino);
+        vector<Arista> salientes(Nodo u) const;
+        vector<Arista> entrantes(Nodo u) const;
+        size_t cantidadNodos() const;
+        //size_t cantidadAristas() const;
         bool esDirigido() const;
-        size_t cantidadVertices() const;
-        Grafo operator-(int);
+        //Grafo operator-(int);
 };
 
 #endif

@@ -2,25 +2,28 @@
 #include <set>
 #include <queue>
 using std::set, std::priority_queue, std::greater;
-using Estado = std::pair<float,int>;
+using Estado = std::pair<Peso,Nodo>;
 
 namespace algoritmos::camino_mas_corto::dijkstra::clasico {
-    dijkstra_return dijkstra(Grafo* G, int s) {
-        size_t n = G->cantidadVertices();
-        set<int> S; vector<int> d; vector<int> pred;
-        S.insert(s); d[s]=0; pred[s]=VERTICE_NULO;
+    dijkstra_return dijkstra(Grafo* G, Nodo s) {
+        size_t n = G->cantidadNodos();
+        set<Nodo> S;
+        vector<Peso> d;
+        vector<Nodo> pred;
+        S.insert(s);
+        d[s]=0;
+        pred[s]=NODO_NULO;
         while(S.size() < n){
-            float minimo = INF;
-            int mejorU = VERTICE_NULO;
-            int mejorV = VERTICE_NULO;
-            for(int u: S){
-                auto adyacentes = G->adyacentes(u);
-                for(auto e: adyacentes){
-                    int v = e.getDestino();
+            Peso minimo = INF;
+            Nodo mejorU = NODO_NULO;
+            Nodo mejorV = NODO_NULO;
+            for(Nodo u: S){
+                auto salientes = G->salientes(u);
+                for(auto& [v,peso]: salientes){
                     if(S.count(v)){
                         continue;
                     }
-                    float candidato = d[u] + e.getCosto();
+                    Peso candidato = d[u] + peso;
                     if(candidato < minimo){
                         minimo = candidato;
                         d[v]=candidato;
@@ -38,10 +41,10 @@ namespace algoritmos::camino_mas_corto::dijkstra::clasico {
 }
 
 namespace algoritmos::camino_mas_corto::dijkstra::pq {
-    dijkstra_return dijkstra(Grafo* G, int s) {
-        size_t n = G->cantidadVertices();
-        vector<int> d(n,INF);
-        vector<int> pred(n,VERTICE_NULO);
+    dijkstra_return dijkstra(Grafo* G, Nodo s) {
+        size_t n = G->cantidadNodos();
+        vector<Peso> d(n,INF);
+        vector<Nodo> pred(n,NODO_NULO);
         d[s]=0;
         priority_queue<Estado,vector<Estado>,greater<Estado>> Q;
         Q.push({0,s});
@@ -52,10 +55,9 @@ namespace algoritmos::camino_mas_corto::dijkstra::pq {
             if(costo != d[u]){
                 continue;
             }
-            auto adyacentes = G->adyacentes(u);
-            for(auto e: adyacentes){
-                int v = e.getDestino();
-                float costo_hasta_v = d[u] + e.getCosto();
+            auto salientes = G->salientes(u);
+            for(auto& [v, peso]: salientes){
+                Peso costo_hasta_v = d[u] + peso;
                 if(costo_hasta_v < d[v]){
                     d[v] = costo_hasta_v;
                     pred[v] = u;

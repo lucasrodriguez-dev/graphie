@@ -5,7 +5,7 @@
 
 struct componente_capas {
     Grafo componente_conexa;
-    vector<vector<int>> capas;
+    vector<vector<Nodo>> capas;
 };
 
 namespace algoritmos::componente_conexa {
