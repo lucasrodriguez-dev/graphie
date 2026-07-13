@@ -5,6 +5,8 @@
 #include <vector>
 using std::vector;
 
+constexpr int VERTICE_NULO = -1;
+
 class Grafo {
     private:
         size_t n;
